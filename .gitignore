@@ -1,0 +1,15 @@
+target/
+pom.xml.tag
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+*.log
+out/
+*.iml
+target/
+.idea/
+.gitignore~
+/classes/artifacts
+
+application.properties
+application.yml
