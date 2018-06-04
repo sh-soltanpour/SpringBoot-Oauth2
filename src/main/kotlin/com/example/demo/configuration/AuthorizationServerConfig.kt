@@ -37,13 +37,22 @@ class AuthorizationServerConfig : AuthorizationServerConfigurerAdapter() {
 
     @Throws(Exception::class)
     override fun configure(clients: ClientDetailsServiceConfigurer?) {
-        clients!!.inMemory().withClient("android-client")
-                .authorizedGrantTypes("client-credentials", "password", "refresh_token")
-                .authorities("ROLE_CLIENT", "ROLE_ANDROID_CLIENT")
-                .scopes("read", "write", "trust")
-                .resourceIds("oauth2-resource")
+        clients!!.inMemory()
+                .withClient("admin")
+                .authorizedGrantTypes("client-credentials", "refresh_token")
+                .authorities("ROLE_ADMIN")
+                .scopes("read", "write", "admin")
                 .accessTokenValiditySeconds(5000)
-                .secret("android-secret").refreshTokenValiditySeconds(50000)
+                .secret("admin-secret")
+                .refreshTokenValiditySeconds(50000)
+                .and()
+                .withClient("client")
+                .authorizedGrantTypes("password", "refresh_token")
+                .authorities("ROLE_CLIENT")
+                .scopes("read")
+                .accessTokenValiditySeconds(5000)
+                .secret("client-secret")
+                .refreshTokenValiditySeconds(50000)
     }
 
     @Throws(Exception::class)
