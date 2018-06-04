@@ -39,7 +39,7 @@ class AuthorizationServerConfig : AuthorizationServerConfigurerAdapter() {
     override fun configure(clients: ClientDetailsServiceConfigurer?) {
         clients!!.inMemory()
                 .withClient("admin")
-                .authorizedGrantTypes("client-credentials", "refresh_token")
+                .authorizedGrantTypes("client_credentials", "refresh_token")
                 .authorities("ROLE_ADMIN")
                 .scopes("read", "write", "admin")
                 .accessTokenValiditySeconds(5000)
