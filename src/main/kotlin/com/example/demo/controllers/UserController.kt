@@ -11,16 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/test")
-class TestController {
+@RequestMapping("/user")
+class UserController {
 
     @Autowired
     lateinit var userService : UserService
 
-    @RequestMapping(value=[""], method = [RequestMethod.GET])
-    fun testCont() : ResponseEntity<Unit>{
-        return ResponseEntity(HttpStatus.OK)
-    }
 
     @RequestMapping(value=["/signup"], method = [RequestMethod.POST])
     fun signup(@RequestBody request : SignupRequest) : ResponseEntity<Unit>{
