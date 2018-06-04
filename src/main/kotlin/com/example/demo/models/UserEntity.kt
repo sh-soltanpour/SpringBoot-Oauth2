@@ -2,6 +2,7 @@ package com.example.demo.models
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.Transient
+import org.springframework.data.mongodb.core.index.Indexed
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -12,6 +13,7 @@ class UserEntity : Serializable {
     @Id
     var id : String? = null
 
+    @Indexed(unique = true)
     var email : String? = null
     var password : String? = null
     var roles : String? = null
