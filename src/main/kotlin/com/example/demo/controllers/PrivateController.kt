@@ -11,8 +11,16 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/private")
 class PrivateController {
-    @RequestMapping(value=[""], method = [RequestMethod.GET])
-    fun test() : ResponseEntity<Unit>{
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @RequestMapping(value=["/admin"], method = [RequestMethod.GET])
+    fun admin() : ResponseEntity<Unit>{
         return ResponseEntity(HttpStatus.OK)
     }
+
+    @RequestMapping(value=["/authenticated"], method = [RequestMethod.GET])
+    fun authenticated() : ResponseEntity<Unit>{
+        return ResponseEntity(HttpStatus.OK)
+    }
+
+
 }
