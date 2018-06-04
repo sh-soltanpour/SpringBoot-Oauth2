@@ -1,5 +1,6 @@
 package com.example.demo.configuration
 
+import com.example.demo.auth.CustomTokenEnhancer
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer
 import org.springframework.http.HttpMethod
@@ -9,6 +10,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter
 
 
 @Configuration
@@ -41,5 +43,6 @@ class AuthorizationServerConfig : AuthorizationServerConfigurerAdapter() {
     override fun configure(endpoints: AuthorizationServerEndpointsConfigurer?) {
         endpoints!!.authenticationManager(authenticationManager)
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
+                .tokenEnhancer(CustomTokenEnhancer())
     }
 }

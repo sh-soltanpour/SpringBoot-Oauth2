@@ -13,6 +13,6 @@ class ResourceServerConfig : ResourceServerConfigurerAdapter() {
         http
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/api/v1/**").authenticated()
+                .antMatchers("/private/**").authenticated()
     }
 }
