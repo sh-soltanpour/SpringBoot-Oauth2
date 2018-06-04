@@ -9,8 +9,15 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.Bean
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices
+import org.springframework.context.annotation.Primary
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore
+import org.springframework.security.oauth2.provider.token.TokenStore
+
+
 
 
 @Configuration
@@ -41,8 +48,32 @@ class AuthorizationServerConfig : AuthorizationServerConfigurerAdapter() {
 
     @Throws(Exception::class)
     override fun configure(endpoints: AuthorizationServerEndpointsConfigurer?) {
-        endpoints!!.authenticationManager(authenticationManager)
+        endpoints!!
+                .tokenStore(tokenStore())
+                .accessTokenConverter(accessTokenConverter())
+                .authenticationManager(authenticationManager)
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
-                .tokenEnhancer(CustomTokenEnhancer())
+    }
+
+    /* JWT TOKENS CONFIG */
+    @Bean
+    fun tokenStore(): TokenStore {
+        return JwtTokenStore(accessTokenConverter())
+    }
+
+    @Bean
+    fun accessTokenConverter(): JwtAccessTokenConverter {
+        val converter = JwtAccessTokenConverter()
+        converter.setSigningKey("123")
+        return converter
+    }
+
+    @Bean
+    @Primary
+    fun tokenServices(): DefaultTokenServices {
+        val defaultTokenServices = DefaultTokenServices()
+        defaultTokenServices.setTokenStore(tokenStore())
+        defaultTokenServices.setSupportRefreshToken(true)
+        return defaultTokenServices
     }
 }
